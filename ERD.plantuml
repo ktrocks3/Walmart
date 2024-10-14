@@ -1,0 +1,94 @@
+@startuml
+entity "Product" {
+  *ProductID : int
+  *Name : string
+
+  ManufacturerID : int
+}
+
+entity "PetFood" {
+  *ProductID : int
+  *Weight : float
+  *Flavor : string
+  *TargetHealthCondition : string
+}
+
+entity "PetToy" {
+  *ProductID : int
+  *Material : string
+  *Durability : string
+}
+
+entity "PetApparel" {
+  *ProductID : int
+  *Color : string
+  *Size : string
+  *CareInstructions : string
+}
+
+entity "Manufacturer" {
+  *ManufacturerID : int
+  *Name : string
+}
+
+entity "Animal" {
+  *AnimalID : int
+  *Name : string
+}
+
+entity "Customer" {
+  *CustomerID : int
+  *Name : string
+  *Email : string
+}
+
+entity "Transaction" {
+  *TransactionID : int
+  *TransactionDate : date
+  --
+  CustomerID : int
+}
+
+entity "Location" {
+  *LocationID : int
+  *Name : string
+  *ZipCode : string
+}
+
+entity "Shipment" {
+  *ShipmentID : int
+  --
+  OriginLocationID : int
+  DestinationLocationID : int
+}
+
+entity "Transaction_Product" {
+  *TransactionID : int
+  *ProductID : int
+}
+
+entity "Product_Animal" {
+  *ProductID : int
+  *AnimalID : int
+}
+
+entity "Shipment_Product" {
+  *ShipmentID : int
+  *ProductID : int
+  *Quantity : int
+}
+
+Product ||--o{ PetFood
+Product ||--o{ PetToy
+Product ||--o{ PetApparel
+Product ||--o{ Product_Animal
+Animal ||--o{ Product_Animal
+Product ||--o{ Transaction_Product
+Transaction ||--o{ Transaction_Product
+Transaction ||--o{ Customer
+Manufacturer ||--o{ Product
+Shipment ||--o{ Shipment_Product
+Product ||--o{ Shipment_Product
+Location ||-- Shipment : OriginLocationID
+Location ||-- Shipment : DestinationLocationID
+@enduml
