@@ -1,0 +1,58 @@
+@startuml
+
+enum ModeIdentifier {
+  Dump
+  Passthrough
+  Validate
+}
+
+enum DatabaseIdentifier {
+  Postgres
+  Redis
+  Elastic
+}
+
+class DataPoint {
+}
+
+interface Database {
+  +connect(): void
+  +insert(data: DataPoint): void
+  +validate(data: DataPoint): void
+}
+
+class Postgres implements Database {
+  +connect(): void
+  +insert(data: DataPoint): void
+  +validate(data: DataPoint): void
+}
+
+class Redis implements Database {
+  +connect(): void
+  +insert(data: DataPoint): void
+  +validate(data: DataPoint): void
+}
+
+class Elastic implements Database {
+  +connect(): void
+  +insert(data: DataPoint): void
+  +validate(data: DataPoint): void
+}
+
+class Processor {
+  -mode: ModeIdentifier
+  -database: Database
+  +configure(mode: ModeIdentifier, db: DatabaseIdentifier): void
+  +process(data: DataPoint): void
+}
+
+Processor o-- ModeIdentifier
+Processor o-- DatabaseIdentifier
+Processor --> Database
+Processor --> DataPoint
+
+Database <|-- Postgres
+Database <|-- Redis
+Database <|-- Elastic
+
+@enduml
